@@ -4,14 +4,14 @@ using UnrealBuildTool;
 
 public class Inventory_UE4 : ModuleRules
 {
-	public Inventory_UE4(ReadOnlyTargetRules Target) : base(Target)
-	{
-		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
-	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput","Blutility","EditorScriptingUtilities","UMG","Niagara","UnrealEd","AssetTools",
-                "ContentBrowser","InputCore","Projects","SceneOutliner" });
+    public Inventory_UE4(ReadOnlyTargetRules Target) : base(Target)
+    {
+        PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
-		PrivateDependencyModuleNames.AddRange(new string[] {  });
+        PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput","Blutility","EditorScriptingUtilities","UMG","Niagara",
+            "Slate"});
+
+        PrivateDependencyModuleNames.AddRange(new string[] { });
 
         PrivateIncludePaths.Add("Inventory_UE4");
 
