@@ -10,6 +10,9 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
+#include "Kismet/GameplayStatics.h"
+#include "Blueprint/WidgetBlueprintLibrary.h"
+#include "Blueprint/UserWidget.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -58,6 +61,8 @@ void ATP_ThirdPersonCharacter::BeginPlay()
 {
 	// Call the base class  
 	Super::BeginPlay();
+
+	CurrentWidget = CreateWidget<UUserWidget>(GetWorld(), InventoryWidgetClass);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -71,6 +76,7 @@ void ATP_ThirdPersonCharacter::SetupPlayerInputComponent(UInputComponent* Player
 		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
 		{
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
+			Subsystem->AddMappingContext(InventoryMappingContext, 0);
 		}
 	}
 	
@@ -86,6 +92,11 @@ void ATP_ThirdPersonCharacter::SetupPlayerInputComponent(UInputComponent* Player
 
 		// Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ATP_ThirdPersonCharacter::Look);
+
+		// Toggle Inventory
+		EnhancedInputComponent->BindAction(InventoryAction, ETriggerEvent::Started, this, &ATP_ThirdPersonCharacter::Inventory);
+
+
 	}
 	else
 	{
@@ -126,5 +137,26 @@ void ATP_ThirdPersonCharacter::Look(const FInputActionValue& Value)
 		// add yaw and pitch input to controller
 		AddControllerYawInput(LookAxisVector.X);
 		AddControllerPitchInput(LookAxisVector.Y);
+	}
+}
+
+// Migrate to BPC_Inventory_C
+void ATP_ThirdPersonCharacter::Inventory(const FInputActionValue& Value)
+{
+	// input is a bool
+	bool bIsPressed = Value.Get<bool>();
+
+	if (Controller != nullptr)
+	{
+		if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
+		{
+			if (bIsPressed)
+			{
+				CurrentWidget->AddToViewport();
+				PlayerController->bShowMouseCursor = true;
+				UWidgetBlueprintLibrary::SetInputMode_UIOnlyEx(PlayerController, CurrentWidget, EMouseLockMode::DoNotLock, false);
+			}
+		}
+
 	}
 }
