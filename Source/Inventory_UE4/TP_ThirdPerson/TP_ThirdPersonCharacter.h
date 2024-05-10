@@ -69,8 +69,6 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = "Widget")
 	TSubclassOf<UUserWidget> InventoryWidgetClass;
-
-	UPROPERTY(EditAnywhere, Category = "Widget")
 	class UUserWidget* CurrentWidget;
 
 protected:
