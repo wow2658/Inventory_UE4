@@ -11,7 +11,7 @@ public class Inventory_UE4 : ModuleRules
         PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput","Blutility","EditorScriptingUtilities","UMG","Niagara",
             "Slate"});
 
-        PrivateDependencyModuleNames.AddRange(new string[] { });
+        PrivateDependencyModuleNames.AddRange(new string[] {"AIModule" });
 
         PrivateIncludePaths.Add("Inventory_UE4");
 
