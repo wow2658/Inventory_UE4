@@ -3,3 +3,13 @@
 
 #include "AI/GASAIController.h"
 
+#include "BehaviorTree/BlackboardComponent.h"
+#include "BehaviorTree/BehaviorTreeComponent.h"
+
+AGASAIController::AGASAIController()
+{
+	BlackboardComponent = CreateDefaultSubobject<UBlackboardComponent>("BlackboardComponent");
+	check(BlackboardComponent);
+	BehaviorTreeComponent = CreateDefaultSubobject<UBehaviorTreeComponent>("BehaviorTreeComponent");
+	check(BehaviorTreeComponent);
+}
